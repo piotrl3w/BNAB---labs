@@ -18,7 +18,7 @@ public class DataLoader {
 
         @PostConstruct
         public void initialize() {
-            User user = new User("admin", "admin", "test@test.pl", DigestUtils.md5DigestAsHex("test".getBytes()), UserRole.ADMIN, Collections.emptyList());
+            User user = new User("admin", "admin", "test@test.pl", DigestUtils.md5DigestAsHex("test".getBytes()), UserRole.ADMIN);
             userRepository.save(user);
         }
 }
