@@ -14,8 +14,9 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
+
 @RestController
+@RequestMapping("api/v1")
 public class CourseController {
 
     @Autowired
@@ -54,7 +55,7 @@ public class CourseController {
 //
     @PostMapping("/users/signin")
     public ResponseEntity.BodyBuilder createUser(@RequestBody UserDto user) {
-        userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user.getRole(), Collections.emptyList()));
+        userRepository.save(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user.getRole()));
         return ResponseEntity.accepted();
     }
 

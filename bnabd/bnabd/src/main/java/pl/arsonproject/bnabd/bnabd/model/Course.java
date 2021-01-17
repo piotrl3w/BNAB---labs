@@ -1,25 +1,9 @@
 package pl.arsonproject.bnabd.bnabd.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Table;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-
+import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@EnableAutoConfiguration
-@Table(appliesTo = "Course")
+@Table(name = "Course")
 public class Course {
 
 
