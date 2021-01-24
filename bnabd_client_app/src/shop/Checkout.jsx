@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ValidatedForm } from "../forms/ValidatedForm";
 
-export default class Checkout extends Component {
+export class Checkout extends Component {
     constructor(props) {
         super(props);
         this.defaultAttrs = { type: "text", required: true };
@@ -16,10 +16,11 @@ export default class Checkout extends Component {
     }
 
     handleSubmit = (formData) => {
+        debugger;
         const order = { ...formData, products: this.props.cart.map((item) => ({ quantity: item.quantity, product_id: item.product.id })) };
-        this.props.pleacOrder(order);
+        this.props.placeOrder(order);
         this.props.clearCart();
-        this.props.history.push("/shop/cart");
+        this.props.history.push("/shop/thanks");
     };
 
     handleCancel = () => {
