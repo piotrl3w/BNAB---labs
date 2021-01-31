@@ -54,7 +54,7 @@ export class ValidatedForm extends Component {
                 {this.props.formModel.map(m => this.renderElement(m))}
                 <div className="text-center">
                     <button className="btn btn-secondary m-1" onClick={this.props.cancelCallback}>{this.props.cancelText || "Cancel"}</button>
-                    <button className="btn btn-secondary m-1" onClick={this.props.submitCallback}>{this.props.submitText || "Send"}</button>
+                    <button className="btn btn-secondary m-1" onClick={this.props.handleSubmit}>{this.props.submitText || "Send"}</button>
                 </div>
             </>
         )
