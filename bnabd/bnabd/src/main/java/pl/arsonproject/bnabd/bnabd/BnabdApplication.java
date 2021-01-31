@@ -10,4 +10,5 @@ public class BnabdApplication {
 		SpringApplication.run(BnabdApplication.class, args);
 	}
 
+	
 }
