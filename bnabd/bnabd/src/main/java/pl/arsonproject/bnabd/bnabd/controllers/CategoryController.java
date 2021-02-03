@@ -12,7 +12,7 @@ import pl.arsonproject.bnabd.bnabd.repository.HibernateUtil;
 
 @RestController
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/category")
 public class CategoryController {
 
     @Autowired
@@ -23,7 +23,6 @@ public class CategoryController {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(category);
 
             categoryRepository.save(category);
             session.getTransaction().commit();
