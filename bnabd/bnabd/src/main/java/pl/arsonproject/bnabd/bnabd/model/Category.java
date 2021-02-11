@@ -16,13 +16,14 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(name = "Name",nullable = false)
     private String Name;
 
+    @Column(name = "id",nullable = false)
     public Long getId() {
         return Id;
     }
 
+    @Column(name = "name",nullable = false)
     public String getName() {
         return Name;
     }

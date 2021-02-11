@@ -24,7 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
+                .antMatcher("*")
 //                .addFilterBefore(BasicAuthenticationFilter.class)
                 .httpBasic();
+
+
+
     }
 }
