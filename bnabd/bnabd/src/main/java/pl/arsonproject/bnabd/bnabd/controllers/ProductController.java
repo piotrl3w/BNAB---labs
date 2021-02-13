@@ -40,16 +40,22 @@ public class ProductController {
         Long count = 0L;
         List<Product> products = new ArrayList<>();
         try {
-            count = productRepository.findAll().stream().count();
+
 
             if (!categoryName.equals("allOfThings")) {
                 Category category = categoryRepository.findAll().stream().filter(x -> x.getName().equals(categoryName)).collect(Collectors.toList()).get(0);
-                if (category == null)
-                    products = productRepository.findAll().stream().limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
-                else
-                    products = productRepository.findAll().stream().filter(product -> product.getCategoryId() == category.getId()).limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
+                if (category == null) {
+                    products = productRepository.findAll().stream().collect(Collectors.toList());
+                    count = products.stream().count();
+                    products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
+                }else {
+                    products = productRepository.findAll().stream().filter(product -> product.getCategoryId() == category.getId()).collect(Collectors.toList());
+                    count = products.stream().count();
+                    products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
+                }
             } else {
                 products = productRepository.findAll();
+                count = products.stream().count();
             }
 
             if (sortDirection.equals("name")) {
@@ -58,15 +64,14 @@ public class ProductController {
                 products.sort((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()));
             }
 
-            products = products.stream().limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
-
+            products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
 
         } catch (Exception e) {
 
         }
 
 
-        return new ProductsResult(products,count);
+        return new ProductsResult(products, count);
     }
 
     class ProductsResult {
