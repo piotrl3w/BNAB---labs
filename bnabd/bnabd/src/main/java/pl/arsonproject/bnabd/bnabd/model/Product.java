@@ -18,7 +18,8 @@ public class Product {
 
     private String Name;
 
-    private Long CategoryId;
+    @ManyToOne
+    private Category Category;
 
     private String Description;
 
@@ -38,13 +39,13 @@ public class Product {
         Name = name;
     }
 
-    @Column(name = "category_id",nullable = false)
-    public Long getCategoryId() {
-        return CategoryId;
+    @Column(name = "category")
+    public pl.arsonproject.bnabd.bnabd.model.Category getCategory() {
+        return Category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        CategoryId = categoryId;
+    public void setCategory(pl.arsonproject.bnabd.bnabd.model.Category category) {
+        Category = category;
     }
 
     @Column(name = "description",nullable = false)
