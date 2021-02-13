@@ -1,6 +1,7 @@
 package pl.arsonproject.bnabd.bnabd.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import pl.arsonproject.bnabd.bnabd.model.Category;
@@ -35,15 +36,18 @@ public class ProductController {
 
 
     @GetMapping("/get")
-    public List<Product> GetListByCategoryId(@RequestParam(value = "category_like", defaultValue = "allOfThings") String categoryName, @RequestParam("_sort") String sortDirection) {
+    public ProductsResult GetListByCategoryId(@RequestParam(value = "category_like", defaultValue = "allOfThings") String categoryName, @RequestParam("_sort") String sortDirection, @RequestParam(value = "_limit", defaultValue = "5") int limit, @RequestParam(value = "_page", defaultValue = "1") int page) {
+        Long count = 0L;
         List<Product> products = new ArrayList<>();
         try {
+            count = productRepository.findAll().stream().count();
+
             if (!categoryName.equals("allOfThings")) {
                 Category category = categoryRepository.findAll().stream().filter(x -> x.getName().equals(categoryName)).collect(Collectors.toList()).get(0);
                 if (category == null)
-                    products = productRepository.findAll();
+                    products = productRepository.findAll().stream().limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
                 else
-                    products = productRepository.findAll().stream().filter(product -> product.getCategoryId() == category.getId()).collect(Collectors.toList());
+                    products = productRepository.findAll().stream().filter(product -> product.getCategoryId() == category.getId()).limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
             } else {
                 products = productRepository.findAll();
             }
@@ -54,11 +58,24 @@ public class ProductController {
                 products.sort((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()));
             }
 
+            products = products.stream().limit(page == 1 ? limit : (limit*page)).skip(page == 1 ? 0 : (limit*page)-limit).collect(Collectors.toList());
+
 
         } catch (Exception e) {
 
         }
-        return products;
+
+
+        return new ProductsResult(products,count);
     }
 
+    class ProductsResult {
+        public List<Product> list;
+        public long count;
+
+        public ProductsResult(List<Product> list, long count) {
+            this.list = list;
+            this.count = count;
+        }
+    }
 }
