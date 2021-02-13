@@ -27,7 +27,6 @@ public class ProductController {
     @PostMapping("/save")
     public void Save(@RequestBody Product product) {
         try {
-
             productRepository.save(product);
         } catch (Exception e) {
             e.getMessage();
@@ -49,7 +48,7 @@ public class ProductController {
                     count = products.stream().count();
                     products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
                 }else {
-                    products = productRepository.findAll().stream().filter(product -> product.getCategoryId() == category.getId()).collect(Collectors.toList());
+                    products = productRepository.findAll().stream().filter(product -> product.getCategory().getId() == category.getId()).collect(Collectors.toList());
                     count = products.stream().count();
                     products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
                 }
