@@ -8,6 +8,7 @@ import PaginationControls from "../PaginationControls";
 const ProductPages = ProductPageConnector(PaginationControls);
 
 export class Shop extends Component {
+    
     handleAddToCart = (...args) => {
         this.props.addToCart(...args);
         this.props.history.push("/shop/cart");
