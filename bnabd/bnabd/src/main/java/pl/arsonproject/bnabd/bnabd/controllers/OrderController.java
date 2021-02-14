@@ -2,9 +2,7 @@ package pl.arsonproject.bnabd.bnabd.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.arsonproject.bnabd.bnabd.model.Orders;
 import pl.arsonproject.bnabd.bnabd.repository.OrderRepository;
 import pl.arsonproject.bnabd.bnabd.repository.OrdersProductsRepository;
@@ -21,13 +19,9 @@ public class OrderController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("Place")
-    public Orders PlaceOrder(Orders order){
+    @PostMapping("place")
+    public Orders PlaceOrder(@RequestBody Orders order){
         orderRepository.save(order);
-
-        order.getOrderProductsList().forEach(x -> {
-            productRepository.delete(x.getProduct());
-        });
         
         return order;
     }
