@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { ValidatedForm } from "../forms/ValidatedForm";
+import * as service from "../service/orderService";
 
 export default class Checkout extends Component {
     constructor(props) {
         super(props);
         this.defaultAttrs = { type: "text", required: true };
         this.formModel = [
-            { label: "Name & Surname" },
+            { label: "Purchaser" },
             { label: "Email", attrs: { type: "email" } },
             { label: "Address" },
             { label: "City" },
@@ -16,17 +17,21 @@ export default class Checkout extends Component {
     }
 
     handleSubmit = (formData) => {
-        const order = { ...formData, products: this.props.cart.map((item) => ({ quantity: item.quantity, product_id: item.product.id })) };
-        this.props.pleacOrder(order);
-        this.props.clearCart();
-        this.props.history.push("/shop/cart");
+        const order = { ...formData, products: this.props.cart.map((item) => ({ quantity: item.quantity, product: item.product })) };
+        service.placeOrder(order).then((res) => {
+            debugger;
+            this.props.placeOrder(order);
+
+            this.props.clearCart();
+            this.props.history.push("/shop/thanks/:order",res.data.id);
+        });
     };
 
     handleCancel = () => {
         this.props.history.push("/shop/cart");
-    }
+    };
 
-    render(){
+    render() {
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -36,15 +41,17 @@ export default class Checkout extends Component {
                 </div>
                 <div className="row">
                     <div className="col m-2">
-                        <ValidatedForm formModel={this.formModel}
+                        <ValidatedForm
+                            formModel={this.formModel}
                             defaultAttrs={this.defaultAttrs}
                             submitCallback={this.handleSubmit}
                             cancelCallback={this.handleCancel}
                             cancelText="Cancel order"
-                            submitText="Order"/>
+                            submitText="Order"
+                        />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

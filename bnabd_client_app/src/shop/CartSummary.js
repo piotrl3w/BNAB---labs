@@ -26,7 +26,9 @@ export class CartSummary extends Component {
                 <Link className={ this.getLinkClasses() } 
                         to="/shop/cart">
                     <i className="fa fa-shopping-cart"></i>
-                </Link>                
+                </Link>        
+                <Link className="btn btn-sm bg-dark text-white" to="/adminCenter">
+                    <i className="fa fa-user-cog"></i></Link>        
             </small>
         </div>
     }
