@@ -11,6 +11,7 @@ import pl.arsonproject.bnabd.bnabd.repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,13 +43,13 @@ public class ProductController {
 
 
             if (!categoryName.equals("allOfThings")) {
-                Category category = categoryRepository.findAll().stream().filter(x -> x.getName().equals(categoryName)).collect(Collectors.toList()).get(0);
+                Category category = categoryRepository.findAll().stream().filter(x -> x.getName().toLowerCase(Locale.ROOT).equals(categoryName)).collect(Collectors.toList()).get(0);
                 if (category == null) {
                     products = productRepository.findAll().stream().collect(Collectors.toList());
                     count = products.stream().count();
                     products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
                 }else {
-                    products = productRepository.findAll().stream().filter(product -> product.getCategory().getId() == category.getId()).collect(Collectors.toList());
+                    products = productRepository.findAll().stream().filter(product -> product.getCategory().equals(category)).collect(Collectors.toList());
                     count = products.stream().count();
                     products = products.stream().limit(page == 1 ? limit : (limit * page)).skip(page == 1 ? 0 : (limit * page) - limit).collect(Collectors.toList());
                 }
