@@ -3,6 +3,8 @@ import { SportsStoreDataStore } from "./data/DataStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { ShopConnector } from "./shop/ShopConnector";
+import Login from "./admin/Login";
+import StoreManagement from "./admin/StoreManagement";
 
 export default class App extends Component {
     render() {
@@ -11,6 +13,8 @@ export default class App extends Component {
                 <Router>
                     <Switch>
                         <Route path="/shop" component={ShopConnector} />
+                        <Route path="/adminCenter" component={Login} exact={true}/>
+                        <Route path="/adminCenter/management" component={StoreManagement} exact={true}/>
                         <Redirect to="/shop" />
                     </Switch>
                 </Router>
